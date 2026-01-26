@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",   // Versão do formato do launch.json
+  "configurations": [   // Lista de configurações de depuração
+    {
+      "name": "Depurador do Python: Arquivo Atual",  // Nome que aparece na interface do VS Code
+      "type": "debugpy",                             // Usa o depurador do Python (debugpy)
+      "request": "launch",                           // Tipo de solicitação: "launch" inicia o programa
+      "program": "${file}",                          // Arquivo que está aberto no momento
+      "console": "integratedTerminal",               // Usa o terminal integrado do VS Code
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"           // Define uma variável de ambiente para o caminho base
+      }
+    }
+  ]
+}
