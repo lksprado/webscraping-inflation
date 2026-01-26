@@ -1,5 +1,5 @@
 [project]
-name = "seu-projeto-template"
+name = "ws-inflation"
 version = "0.1.0"
 description = "Template para projetos Python"
 requires-python = ">=3.10"
