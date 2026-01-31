@@ -18,7 +18,7 @@ df_final = pd.concat(dfs, ignore_index=True)
 
 
 df_final.to_csv(
-    "/media/lucas/Files/2.Projetos/webscraping-inflation/data/consolidated.csv",
+    "/media/lucas/Files/2.Projetos/webscraping-inflation/data/minha_inflacao.csv",
     sep=",",
     index=False,
 )

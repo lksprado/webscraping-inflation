@@ -7,7 +7,7 @@ import pandas as pd
 import yaml
 
 from .extractor import Extractor
-from .scraper import build_scrapers
+from .scraper import AtacadaoScraper
 from .utils.log import logger
 
 
@@ -29,14 +29,11 @@ def load_yaml(path: Path) -> dict:
         return yaml.safe_load(f) or {}
 
 
-def load_keywords(store_cfg: dict, products_cfg_path: Path | None) -> list[str]:
-    if "keywords" in store_cfg:
-        raw = store_cfg.get("keywords", [])
-    elif products_cfg_path and Path(products_cfg_path).exists():
-        raw = load_yaml(products_cfg_path).get("keywords", [])
-    else:
-        raw = []
+def load_keywords(products_cfg_path: Path | None) -> list[str]:
+    if not products_cfg_path or not Path(products_cfg_path).exists():
+        return []
 
+    raw = load_yaml(products_cfg_path).get("keywords", [])
     keywords = []
     for item in raw:
         if isinstance(item, dict) and "name" in item:
@@ -55,20 +52,17 @@ def search_products(
     output_dir = Path(output_dir)
 
     store_cfg = load_yaml(store_config_file)
-    stores = store_cfg.get("stores", [])
+    stores = [s for s in store_cfg.get("stores", []) if s.get("enabled", True)]
     if not stores:
         logger.warning("Nenhuma loja encontrada em %s", store_config_file)
         return
 
-    keywords = load_keywords(store_cfg, products_config_file)
+    keywords = load_keywords(products_config_file)
     if not keywords:
         logger.warning("Nenhuma keyword encontrada")
         return
 
-    scrapers = build_scrapers(stores, extractor)
-    if not scrapers:
-        logger.warning("Nenhum scraper ativo")
-        return
+    scrapers = [AtacadaoScraper(store, extractor) for store in stores]
 
     dt = datetime.now().strftime("%Y-%m-%d")
     for scraper in scrapers:
@@ -88,7 +82,7 @@ def search_products(
 
 
 if __name__ == "__main__":
-    output = "/media/lucas/Files/2.Projetos/0.mylake/raw/inflation"
+    output = "/media/lucas/Files/2.Projetos/0.mylake/raw/inflation/atacadao"
 
     store_config = "src/store_config.yml"
     products_config = "src/products_config.yml"

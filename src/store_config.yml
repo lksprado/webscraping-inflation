@@ -1,7 +1,6 @@
 stores:
   - id: atacadao
     name: Atacadao
-    adapter: atacadao
     search_url: "https://www.atacadao.com.br/api/graphql"
     operation: "ProductsQuery"
     region_id: "U1cjYXRhY2FkYW9icjM0MA=="
@@ -9,15 +8,3 @@ stores:
     seller: "atacadaobr340"
     locale: "pt-BR"
     enabled: true
-
-  - id: carrefour
-    name: Carrefour
-    adapter: carrefour
-    base_url: "https://mercado.carrefour.com.br"
-    api_base_url: "https://www.standout.com.br"
-    search_endpoint: "/carrefour/catchtagSearch.php"
-    search_page_template: "/busca/{keyword}"
-    distributor: "carrefour"
-    hash: "d637a7b017e0b"
-    enabled: true
-    debug_html_path: "/tmp/carrefour_search.html"
